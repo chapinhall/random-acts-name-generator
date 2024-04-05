@@ -1,12 +1,16 @@
-library(shiny)
-library(stringr)
-library(glue)
-library(devtools)
-#devtools::install_github("hadley/emo")
+# Install packages if not already installed
+packages_list <- c("shiny", "stringr", "glue", "devtools", "emo")
+for (p in packages_list) {
+  if (!p %in% installed.packages()[, "Package"]) install.package(p)
+  if (p == "emo") {
+    devtools::install_github("hadley/emo")
+  } else {
+    library(p, character.only = TRUE)  
+  }
+}
 
-roster <- read.csv("CHC-roster-2021-01-28.csv")
+roster <- read.csv("Chapin Hall Staff Directory -- 2024-04-04.csv")
 names <- str_replace(roster[, 1], "(.+), (.+)", "\\2 \\1")
-
 
 ui <- fluidPage(
 
